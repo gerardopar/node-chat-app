@@ -3,11 +3,6 @@ let socket = io(); //initializes socketIO
     //event for connecting to server
     socket.on('connect', function() {
         console.log('connected to server');
-
-        // socket.emit('createMessage', { //passing an email to the server
-        //     to: 'jane',
-        //     text: 'Hello from the client side!'
-        // });
     });
 
     //event for disconnecting from server
@@ -18,3 +13,13 @@ let socket = io(); //initializes socketIO
     socket.on('newMessage', function(message) {
         console.log('newMessage', message);
     });
+
+    // admin event handlers
+    socket.on('adminWelcome', function(text){
+        console.log(text)
+    });
+
+    socket.on('adminNewUser', function(message) {
+        console.log(message);
+    });
+    

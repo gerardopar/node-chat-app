@@ -17,20 +17,26 @@ app.use(express.static(publicPath)); //setting up public route
 io.on('connection', (socket) => {
     console.log('New user connected');
 
-    // socket.emit('newMessage', { //passing an email to the client
-    //     from: 'john',
-    //     text: `hello from backend side`,
-    //     createdAt: new Date().getTime()
-    // }); //emitting the newEmail event handler
+    socket.emit('newMessage', {
+        from: 'Admin',
+        text: 'Welcome to the chat App',
+        createdAt: new Date().getTime()
+    }); //admin welcome message
+    socket.broadcast.emit('newMessage', {
+        from: 'Admin',
+        text: 'New user joined',
+        createdAt: new Date().getTime()
+    }); //admin broadcast new user message
 
     //creating a new Message event handler
     socket.on('createMessage', (message) => {
         console.log('createMessage', message);
+
         io.emit('newMessage', { //emitting the client newMessage event handler
             from: message.from,
             text: message.text,
             createdAt: new Date().getTime()
-        });
+        });       
     });
     
     //event for disconnecting from server
