@@ -13,13 +13,3 @@ let socket = io(); //initializes socketIO
     socket.on('newMessage', function(message) {
         console.log('newMessage', message);
     });
-
-    // admin event handlers
-    socket.on('adminWelcome', function(text){
-        console.log(text)
-    });
-
-    socket.on('adminNewUser', function(message) {
-        console.log(message);
-    });
-    
