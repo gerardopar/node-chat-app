@@ -17,17 +17,22 @@ app.use(express.static(publicPath)); //setting up public route
 io.on('connection', (socket) => {
     console.log('New user connected');
 
-    socket.emit('newMessage', { //passing an email to the client
-        from: 'john',
-        text: `hello from backend side`,
-        createdAt: new Date().getTime()
-    }); //emitting the newEmail event handler
+    // socket.emit('newMessage', { //passing an email to the client
+    //     from: 'john',
+    //     text: `hello from backend side`,
+    //     createdAt: new Date().getTime()
+    // }); //emitting the newEmail event handler
 
     //creating a new Message event handler
-    socket.on('createMessage', (newMessage) => {
-        console.log('New message', newMessage);
+    socket.on('createMessage', (message) => {
+        console.log('createMessage', message);
+        io.emit('newMessage', { //emitting the client newMessage event handler
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getTime()
+        });
     });
-
+    
     //event for disconnecting from server
     socket.on('disconnect', () => {
         console.log('disconnected from server');

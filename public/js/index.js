@@ -4,10 +4,10 @@ let socket = io(); //initializes socketIO
     socket.on('connect', function() {
         console.log('connected to server');
 
-        socket.emit('createMessage', { //passing an email to the server
-            to: 'jane',
-            text: 'Hello from the client side!'
-        });
+        // socket.emit('createMessage', { //passing an email to the server
+        //     to: 'jane',
+        //     text: 'Hello from the client side!'
+        // });
     });
 
     //event for disconnecting from server
@@ -16,5 +16,5 @@ let socket = io(); //initializes socketIO
     });
 
     socket.on('newMessage', function(message) {
-        console.log('New message', message);
+        console.log('newMessage', message);
     });
