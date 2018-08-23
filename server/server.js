@@ -22,10 +22,11 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('newMessage', generateMessage('Admin', 'New user joined')); //admin broadcast new user message
 
     //creating a new Message event handler
-    socket.on('createMessage', (message) => {
+    socket.on('createMessage', (message, callback) => {
         console.log('createMessage', message);
 
-        io.emit('newMessage', generateMessage(message.from, message.text));       
+        io.emit('newMessage', generateMessage(message.from, message.text));
+        callback('This is from the server');
     });
     
     //event for disconnecting from server
