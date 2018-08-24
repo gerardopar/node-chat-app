@@ -29,6 +29,7 @@ io.on('connection', (socket) => {
         callback();
     });
 
+    //user location message
     socket.on('createLocationMessage', (coords) => {
         io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
     });

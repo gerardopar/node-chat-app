@@ -1,3 +1,4 @@
+const moment = require('moment');
 const expect = require('expect');
 
 let { generateMessage, generateLocationMessage } = require('./message.js');
@@ -5,7 +6,7 @@ let { generateMessage, generateLocationMessage } = require('./message.js');
 describe('generateMessage', () => {
     it('it should generate the correct object message', () => {
         let result = generateMessage('gerardo', 'hello world');
-        expect(result).toEqual({from: 'gerardo', text: 'hello world', createdAt: new Date().getTime()});
+        expect(result).toEqual({from: 'gerardo', text: 'hello world', createdAt: moment().valueOf()});
     });
 });
 
@@ -18,7 +19,7 @@ describe('generate location message', () => {
         expect(result).toEqual({
             from: from,
             url: `https://www.google.com/maps?q=${latitude},${longitude}`,
-            createdAt: new Date().getTime()
+            createdAt: moment().valueOf()
         });
     });
 });

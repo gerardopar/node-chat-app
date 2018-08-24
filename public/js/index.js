@@ -11,19 +11,21 @@ let socket = io(); //initializes socketIO
     });
 
     socket.on('newMessage', function(message) {
-        console.log('newMessage', message);
+        let formattedTime = moment(message.CreatedAt).format('h:mm a');
         //displaying user messages
         let li = $('<li></li>');
-        li.text(`${message.from}: ${message.text}`);
+        li.text(`${message.from} ${formattedTime}: ${message.text}`);
 
         $('#messages').append(li);
     });
 
     socket.on('newLocationMessage', function(message) {
+        let formattedTime = moment(message.CreatedAt).format('h:mm a');
+
         let li = $('<li></li>');
         let a = $('<a target="_blank">My current location</a>');
 
-        li.text(`${message.from}: `);
+        li.text(`${message.from} ${formattedTime}: `);
         a.attr('href', message.url);
         
         li.append(a);
@@ -48,6 +50,7 @@ let socket = io(); //initializes socketIO
     // - - [ JQUERY geolocation ] - -
     let locationBtn = $('#send-location');
 
+    //location event handler
     locationBtn.on('click', function(){
         if(!navigator.geolocation) {
             return alert('Geolocation not supported by your browser');
@@ -55,7 +58,7 @@ let socket = io(); //initializes socketIO
         
         locationBtn.attr('disabled', 'disabled').text('Sending location...');
 
-        //getting the users location
+        //getting the users location via the navigator geoLocation api
         navigator.geolocation.getCurrentPosition(function (position){
             locationBtn.removeAttr('disabled').text('Send location');
             socket.emit('createLocationMessage',{
