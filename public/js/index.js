@@ -35,14 +35,14 @@ let socket = io(); //initializes socketIO
     $('#message-form').on('submit', function(e) {
         e.preventDefault();
         
+        let messageTextBox = $('[name=message]');
+
         socket.emit('createMessage', {
             from: 'User',
-            text: $('[name=message]').val()
-        }, function(data){
-            console.log('Got it', data);
+            text: messageTextBox.val()
+        }, function(){
+            messageTextBox.val('');
         });
-
-        $('[name=message]').val('');
     });
 
     // - - [ JQUERY geolocation ] - -
@@ -52,9 +52,12 @@ let socket = io(); //initializes socketIO
         if(!navigator.geolocation) {
             return alert('Geolocation not supported by your browser');
         }
+        
+        locationBtn.attr('disabled', 'disabled').text('Sending location...');
+
         //getting the users location
         navigator.geolocation.getCurrentPosition(function (position){
-            console.log(position);
+            locationBtn.removeAttr('disabled').text('Send location');
             socket.emit('createLocationMessage',{
                 latitude: position.coords.latitude, //passed to the server
                 longitude: position.coords.longitude
