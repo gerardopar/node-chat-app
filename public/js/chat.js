@@ -21,7 +21,16 @@ let socket = io(); //initializes socketIO
 
     //event for connecting to server
     socket.on('connect', function() {
-        console.log('connected to server');
+        let params = $.deparam(window.location.search);
+
+        socket.emit('join', params, function(err){
+            if(err) {
+                alert(err);
+                window.location.href = '/';
+            } else {
+                console.log('No error');
+            }
+        });
     });
 
     //event for disconnecting from server
