@@ -38,6 +38,16 @@ let socket = io(); //initializes socketIO
         console.log('disconnected from server');
     });
 
+    //updates the userList displaying all users in the chat room
+    socket.on('updateUserList', function(users){
+        let ol = $('<ol></ol>');
+        users.forEach(function(user){
+            ol.append($('<li></li>').text(user));
+        });
+
+        $('#users').html(ol);
+    });
+
     socket.on('newMessage', function(message) {
         // [ - - Mustache.js - -  ]
         let formattedTime = moment(message.CreatedAt).format('h:mm a');
